@@ -9,41 +9,38 @@
 </template>
 <script>
 import axios from "axios";
+import jsonp from 'jsonp'
 //前端跨域解决方案:浏览器请求必须遵循同源策略:同域名、同端口、同协议
 /**
  * CROS跨域
  * JSONP跨域
  * 代理跨域
  */
-//CROS跨域-服务端设置,前端直接调用
-//说明:后台允许前端某个站点进行访问
-//CROS跨域浏览器的Response Header 的Access-COntrol-Allow-Credentials会设置为true
-//对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个Origin字段
-//如果Origin指定的域名在许可范围内,服务器返回的响应,会多出几个头信息字段
+//JSONP跨域-前端适配,后台配合
+//说明:前后台同时改造
 /**
- * Access-Control-Allow-Origin: http://api.bob.com
-   Access-Control-Allow-Credentials: true
-   Access-Control-Expose-Headers: FooBar
-   Content-Type: text/html; charset=utf-8
-
-   CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，
-   一方面要服务器同意，指定Access-Control-Allow-Credentials字段。
-   Access-Control-Allow-Credentials: true
-   另一方面，开发者必须在AJAX请求中打开withCredentials属性。
-   var xhr = new XMLHttpRequest();
-   xhr.withCredentials = true;
-   否则，即使服务器同意发送Cookie，浏览器也不会发送。或者，服务器要求设置Cookie，浏览器也不会处理。
-   但是，如果省略withCredentials设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭withCredentials。
-   xhr.withCredentials = false;
+ * jsonp不是一个xhr,而是一段脚本js,只是访问了一个脚本带了一个接口
+ * jsonp(url地址,option配置(可省略),回调函数(错误信息,返回信息))
+ * jsonp只是一段Js脚本,在访问的时候传了一个callback=_jp0
+ *
+ *
+ *
  */
 export default {
   data() {
-    return {};
+    return {
+      data:''
+    };
   },
   mounted(){
-    let url = "https://api-hmugo-web.itheima.net/api/public/v1/my/orders/all";
-    axios.get(url).then(()=>{
-
+    // let url = "https://api-hmugo-web.itheima.net/api/public/v1/my/orders/all";浏览器:https://api-hmugo-web.itheima.net/api/public/v1/my/orders/all?callback=__jp0
+    let url = "https://www.imooc.com/activity/servicetime";//https://www.imooc.com/activity/servicetime?callback=__jp0
+    // axios.get(url).then(()=>{})
+    //jsonp请求
+    jsonp(url,(err,res)=>{
+      let result=res
+      this.data=result
+      //data的信息就是返回的_jp0的信息
     })
   }
 };
