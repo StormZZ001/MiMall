@@ -1,3 +1,21 @@
+//commonJS规范
 module.exports={
   lintOnSave:false,//取消eslint规范
+  devServer:{
+    host:'localhost',
+    port:83,
+    //代理
+    proxy:{
+      '/api':{
+        //代理目标
+        target:'https://www.imooc.com',
+        //是否要将主机头的源点设置为目标url地址
+        changeOrigin:true,
+        //添加路径转发规则
+        pathRewrite:{
+          '/api':''
+        }
+      }
+    }
+  }
 }

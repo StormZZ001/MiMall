@@ -16,16 +16,7 @@ import jsonp from 'jsonp'
  * JSONP跨域
  * 代理跨域
  */
-//JSONP跨域-前端适配,后台配合
-//说明:前后台同时改造
-/**
- * jsonp不是一个xhr,而是一段脚本js,只是访问了一个脚本带了一个接口
- * jsonp(url地址,option配置(可省略),回调函数(错误信息,返回信息))
- * jsonp只是一段Js脚本,在访问的时候传了一个callback=_jp0
- *
- *
- *
- */
+//接口代理
 export default {
   data() {
     return {
@@ -34,7 +25,7 @@ export default {
   },
   mounted(){
     // let url = "https://api-hmugo-web.itheima.net/api/public/v1/my/orders/all";浏览器:https://api-hmugo-web.itheima.net/api/public/v1/my/orders/all?callback=__jp0
-    let url = "https://www.imooc.com/activity/servicetime";//https://www.imooc.com/activity/servicetime?callback=__jp0
+    let url = "/api/activity/servicetime";//https://www.imooc.com/activity/servicetime?callback=__jp0
     // axios.get(url).then(()=>{})
     //jsonp请求
     jsonp(url,(err,res)=>{
